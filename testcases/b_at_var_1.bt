@@ -1,0 +1,12 @@
+BEGIN{
+	@0ap[0]=count()
+	print(@0ap)
+	zero(@0ap)
+	print(@0ap)
+	@[0]=count()
+	@[0]=0;
+	@[0]=count()
+	print(0)
+	clear(0)
+	print(0)
+}

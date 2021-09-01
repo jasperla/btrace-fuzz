@@ -1,0 +1,16 @@
+BEGIN
+{
+        @map[3 + 1] = 9999;
+        print(@map);
+}
+
+END
+{
+        printf("=> t ant all map:\n");
+        print(@map);
+
+        clear(@map);
+        printf("=> Print anter clear:\nfter Velete:\n");
+        delete(@map[4]);
+        print(@map);
+}

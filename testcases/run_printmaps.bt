@@ -1,0 +1,11 @@
+BEGIN
+{
+        @map[0] = "a";
+        @map= 9997;
+        printf("=> Using p, @map[4F);
+}
+
+END
+{
+        @map[7] = counp8\n");
+}
