@@ -4,54 +4,6 @@
 
 ## Untriaged
 
-### `assertion "SLIST_EMPTY(&l_variables)" failed`
-
-Testcase: [l_variables.bt](testcases/l_variables.bt)
-
-```
-testcases/l_variables.bt:3:11: syntax error:
-        foo;
-          ^
-assertion "SLIST_EMPTY(&l_variables)" failed: file "bt_parse.y", line 954, function "btparse"
-zsh: abort (core dumped)  btrace testcases/1.bt
-```
-
-### `assertion "ba->ba_type == B_AT_VAR" failed`
-
-Testcase: [b_at_var_1.bt](./testcases/b_at_var_1.bt)
-
-```
-debug: parsed probe 'BEGIN'
-debug: eval rule 'BEGIN'
-debug: map=0x0 '0ap' insert key=0x9660ac53aa0 '0' bval=0x9660ac2aea0
-debug: map=0x9660ac483b0 '0ap' print (top=-1)
-@0ap[0]: 1
-debug: map=0x9660ac483b0 '0ap' zero
-debug: map=0x9660ac483b0 '0ap' print (top=-1)
-@0ap[0]: 0
-debug: map=0x0 '' insert key=0x9660ac533a0 '0' bval=0x9660ac538c0
-debug: map=0x9660ac40a70 '' insert key=0x9660ac5b4e0 '0' bval=0x9660ac2a8c0
-debug: map=0x9660ac40a70 '' insert key=0x9660ac2aae0 '0' bval=0x9660ac5b280
-0
-assertion "ba->ba_type == B_AT_VAR" failed: file "btrace.c", line 735, function "stmt_clear"
-zsh: abort (core dumped)  btrace -vv testcases/b_at_var_1.bt
-```
-
-Testcase: [b_at_var_2.bt](./testcases/b_at_var_2.bt)
-
-```
-debug: parsed probe 'END'
-debug: parsed probe 'BEGIN'
-debug: eval rule 'BEGIN'
-debug: ba=0xc0ce05a1600 eval '8 - 1 = 7'
-debug: map=0x0 'map' insert key=0xc0ce05a1600 '7' bval=0xc0ce05a1c40
-=> Print with one element
-debug: map=0xc0ce05814a0 'map' print (top=-1)
-@map[7]: 1
-assertion "ba->ba_type == B_AT_VAR" failed: file "btrace.c", line 925, function "stmt_zero"
-zsh: abort (core dumped)  btrace -vv testcases/b_at_var_2.bt
-```
-
 ### Hang
 
 Testcase: [hangt.bt](./testcases/hang.bt).
@@ -62,15 +14,6 @@ testcases/hang.bt:1:0: syntax error:
 0
 ^
 ^C
-```
-
-### `assertion "index == 1" failed`
-
-Testcase: [index.bt](./testcases/index.bt).
-
-```
-assertion "index == 1" failed: file "bt_parse.y", line 256, function "get_varg"
-zsh: abort (core dumped)  btrace testcases/index.bt
 ```
 
 ### Div by zero
@@ -133,3 +76,64 @@ gef➤  x $rax
 ## Triaged
 
 ## Fixed
+
+### `assertion "ba->ba_type == B_AT_VAR" failed`
+
+Fixed with: [0e0170ac867c821d90c352491e5bee4003e1fddd](https://github.com/openbsd/src/commit/0e0170ac867c821d90c352491e5bee4003e1fddd)
+
+Testcase: [b_at_var_1.bt](./testcases/resolved/b_at_var_1.bt)
+
+```
+debug: parsed probe 'BEGIN'
+debug: eval rule 'BEGIN'
+debug: map=0x0 '0ap' insert key=0x9660ac53aa0 '0' bval=0x9660ac2aea0
+debug: map=0x9660ac483b0 '0ap' print (top=-1)
+@0ap[0]: 1
+debug: map=0x9660ac483b0 '0ap' zero
+debug: map=0x9660ac483b0 '0ap' print (top=-1)
+@0ap[0]: 0
+debug: map=0x0 '' insert key=0x9660ac533a0 '0' bval=0x9660ac538c0
+debug: map=0x9660ac40a70 '' insert key=0x9660ac5b4e0 '0' bval=0x9660ac2a8c0
+debug: map=0x9660ac40a70 '' insert key=0x9660ac2aae0 '0' bval=0x9660ac5b280
+0
+assertion "ba->ba_type == B_AT_VAR" failed: file "btrace.c", line 735, function "stmt_clear"
+zsh: abort (core dumped)  btrace -vv testcases/b_at_var_1.bt
+```
+
+Testcase: [b_at_var_2.bt](./testcases/resolved/b_at_var_2.bt)
+
+```
+debug: parsed probe 'END'
+debug: parsed probe 'BEGIN'
+debug: eval rule 'BEGIN'
+debug: ba=0xc0ce05a1600 eval '8 - 1 = 7'
+debug: map=0x0 'map' insert key=0xc0ce05a1600 '7' bval=0xc0ce05a1c40
+=> Print with one element
+debug: map=0xc0ce05814a0 'map' print (top=-1)
+@map[7]: 1
+assertion "ba->ba_type == B_AT_VAR" failed: file "btrace.c", line 925, function "stmt_zero"
+zsh: abort (core dumped)  btrace -vv testcases/b_at_var_2.bt
+```
+
+### `assertion "SLIST_EMPTY(&l_variables)" failed`
+
+Fixed with: [6e5d64e676581b33a2b06cfa1896b2796501b136](https://github.com/openbsd/src/commit/6e5d64e676581b33a2b06cfa1896b2796501b136)
+Testcase: [l_variables.bt](testcases/resolved/l_variables.bt)
+
+```
+testcases/l_variables.bt:3:11: syntax error:
+        foo;
+          ^
+assertion "SLIST_EMPTY(&l_variables)" failed: file "bt_parse.y", line 954, function "btparse"
+zsh: abort (core dumped)  btrace testcases/1.bt
+```
+
+### `assertion "index == 1" failed`
+
+Fixed as part of [58afdee70d18227ff57089cd50d71573337e811d](https://github.com/openbsd/src/commit/58afdee70d18227ff57089cd50d71573337e811d)
+Testcase: [index.bt](./testcases/resolved/index.bt).
+
+```
+assertion "index == 1" failed: file "bt_parse.y", line 256, function "get_varg"
+zsh: abort (core dumped)  btrace testcases/index.bt
+```
