@@ -24,15 +24,6 @@ Testcase: [divzero.bt](./testcases/divzero.bt)
 zsh: floating point exception (core dumped)  btrace testcases/divzero.bt
 ```
 
-### invalid argument type 6
-
-Testcase: [invalid_arg_6.bt](./testcases/invalid_arg_6.bt)
-
-```
-invalid argument type 6
-zsh: abort (core dumped)  btrace -v id:000000,sig:08,src:000001,time:81562,op:havoc,rep:2
-```
-
 ### no string conversion for type 0
 
 Testcase: [no_string_type_0.bt](./testcases/no_string_type_0.bt)
@@ -154,3 +145,11 @@ gef➤  x $rax
 0xdfdfdfdfdfdfdfdf:     Cannot access memory at address 0xdfdfdfdfdfdfdfdf
 ```
 
+### invalid argument type 6
+
+Testcase: [invalid_arg_6.bt](./testcases/invalid_arg_6.bt)
+
+```
+invalid argument type 6
+zsh: abort (core dumped)  btrace -v id:000000,sig:08,src:000001,time:81562,op:havoc,rep:2
+```
