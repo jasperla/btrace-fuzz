@@ -24,55 +24,6 @@ Testcase: [divzero.bt](./testcases/divzero.bt)
 zsh: floating point exception (core dumped)  btrace testcases/divzero.bt
 ```
 
-### `0x000005c00da07df1 in map_RB_FIND (head=0x0, elm=0x7f7ffffc9c50) at map.c:55`
-
-Testcase: [map_rb_find.bt](./testcases/map_rb_find.bt)
-
-```
-debug: parsed probe 'END'
-debug: parsed probe 'BEGIN'
-debug: eval rule 'BEGIN'
-debug: ba=0x6c965b38280 eval '3 + 1 = 4'
-debug: map=0x0 'map' insert key=0x6c965b38280 '4' bval=0x6c965b38a20
-debug: map=0x6c965b2fa50 'map' print (top=-1)
-@map[4]: 9999
-debug: eval rule 'END'
-=> t ant all map:
-debug: map=0x6c965b2fa50 'map' print (top=-1)
-@map[4]: 9999
-debug: map=0x0 'map' clear
-=> Print anter clear:
-fter Velete:
-debug: map=0x0 'map' delete key=0x6c965b38d80 '4'
-zsh: segmentation fault (core dumped)  btrace -vv testcases/map_rb_find.bt
-```
-
-### 0xdfdfdfdfdfdfdfdf
-
-Testcase: [run_printmaps.bt](./testcases/run_printmaps.bt)
-
-```
-debug: parsed probe 'BEGIN'
-debug: eval rule 'BEGIN'
-debug: map=0x0 'map' insert key=0x5fa3e29d4c0 '0' bval=0x5fa3e2a0ac0
-debug: bv=0x5fa3e29d140 var 'map' store (0x5fa3e2ad5e0)
-=> Using p, @map[4F);
-}
-
-END
-{
-        @map[7] = counp8
-debug: eval default 'end' rule
-zsh: segmentation fault (core dumped)  btrace -vv testcases/run_printmaps.bt
-```
-
-```
-[#0] Id 1, stopped 0xc6b1f53f87b in rule_printmaps (), reason: SIGSEGV
-[...]
-gef➤  x $rax
-0xdfdfdfdfdfdfdfdf:     Cannot access memory at address 0xdfdfdfdfdfdfdfdf
-```
-
 ## Triaged
 
 ## Fixed
@@ -137,3 +88,53 @@ Testcase: [index.bt](./testcases/resolved/index.bt).
 assertion "index == 1" failed: file "bt_parse.y", line 256, function "get_varg"
 zsh: abort (core dumped)  btrace testcases/index.bt
 ```
+
+### `0x000005c00da07df1 in map_RB_FIND (head=0x0, elm=0x7f7ffffc9c50) at map.c:55`
+
+Testcase: [map_rb_find.bt](./testcases/map_rb_find.bt)
+
+```
+debug: parsed probe 'END'
+debug: parsed probe 'BEGIN'
+debug: eval rule 'BEGIN'
+debug: ba=0x6c965b38280 eval '3 + 1 = 4'
+debug: map=0x0 'map' insert key=0x6c965b38280 '4' bval=0x6c965b38a20
+debug: map=0x6c965b2fa50 'map' print (top=-1)
+@map[4]: 9999
+debug: eval rule 'END'
+=> t ant all map:
+debug: map=0x6c965b2fa50 'map' print (top=-1)
+@map[4]: 9999
+debug: map=0x0 'map' clear
+=> Print anter clear:
+fter Velete:
+debug: map=0x0 'map' delete key=0x6c965b38d80 '4'
+zsh: segmentation fault (core dumped)  btrace -vv testcases/map_rb_find.bt
+```
+
+### 0xdfdfdfdfdfdfdfdf
+
+Testcase: [run_printmaps.bt](./testcases/run_printmaps.bt)
+
+```
+debug: parsed probe 'BEGIN'
+debug: eval rule 'BEGIN'
+debug: map=0x0 'map' insert key=0x5fa3e29d4c0 '0' bval=0x5fa3e2a0ac0
+debug: bv=0x5fa3e29d140 var 'map' store (0x5fa3e2ad5e0)
+=> Using p, @map[4F);
+}
+
+END
+{
+        @map[7] = counp8
+debug: eval default 'end' rule
+zsh: segmentation fault (core dumped)  btrace -vv testcases/run_printmaps.bt
+```
+
+```
+[#0] Id 1, stopped 0xc6b1f53f87b in rule_printmaps (), reason: SIGSEGV
+[...]
+gef➤  x $rax
+0xdfdfdfdfdfdfdfdf:     Cannot access memory at address 0xdfdfdfdfdfdfdfdf
+```
+
