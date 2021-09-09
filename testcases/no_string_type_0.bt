@@ -1,0 +1,5 @@
+BEGIN
+{
+        @map[7] = 2       printf("=> Print after clear shourinnot crash %d:\n", @map);
+}
+
