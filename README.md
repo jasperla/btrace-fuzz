@@ -29,8 +29,12 @@ zsh: floating point exception (core dumped)  btrace testcases/divzero.bt
 Testcase: [no_string_type_0.bt](./testcases/no_string_type_0.bt)
 
 ```
+debug: parsed probe 'BEGIN'
+debug: eval rule 'BEGIN'
+debug: map=0x363a8be6750 'map' insert key=0x363a8bcb940 '0' bval=0x363a8bcd780
+debug: bv=0x363a8be12c0 read 'map' (0x363a8be6750)
 no string conversion for type 0
-zsh: abort (core dumped)  btrace -v testcases/no_string_type_0.bt
+zsh: abort (core dumped)  btrace -vv testcases/no_string_type_0.bt
 ```
 
 ### no long conversion for type 1
@@ -38,8 +42,10 @@ zsh: abort (core dumped)  btrace -v testcases/no_string_type_0.bt
 Testcase: [no_long_type_1.bt](./testcases/no_long_type_1.bt)
 
 ```
+debug: parsed probe 'BEGIN'
+debug: eval rule 'BEGIN'
 no long conversion for type 1
-zsh: abort (core dumped)  btrace -v no_long_type_1.bt
+zsh: abort (core dumped)  btrace -vv testcases/no_long_type_1.bt
 ```
 
 ### store not implemented for type 3
@@ -47,16 +53,21 @@ zsh: abort (core dumped)  btrace -v no_long_type_1.bt
 Testcase: [store_type_3.bt](./testcases/store_type_3.bt)
 
 ```
+debug: parsed probe 'BEGIN'
+debug: eval rule 'BEGIN'
 store not implemented for type 3
-zsh: abort (core dumped)  btrace -v store_type_3.bt
+zsh: abort (core dumped)  btrace -vv testcases/store_type_3.bt
 ```
+
 ### store not implemented for type 6
 
 Testcase: [store_type_6.bt](./testcases/store_type_6.bt)
 
 ```
+debug: parsed probe 'BEGIN'
+debug: eval rule 'BEGIN'
 store not implemented for type 6
-zsh: abort (core dumped)  btrace -v store_type_6.bt
+zsh: abort (core dumped)  btrace -vv testcases/store_type_6.bt
 ```
 
 ### 0xdfdfdfdfdfdfdfdf
