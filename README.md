@@ -33,6 +33,76 @@ no string conversion for type 0
 zsh: abort (core dumped)  btrace -v testcases/no_string_type_0.bt
 ```
 
+### no long conversion for type 1
+
+Testcase: [no_long_type_1.bt](./testcases/no_long_type_1.bt)
+
+```
+no long conversion for type 1
+zsh: abort (core dumped)  btrace -v no_long_type_1.bt
+```
+
+### store not implemented for type 3
+
+Testcase: [store_type_3.bt](./testcases/store_type_3.bt)
+
+```
+store not implemented for type 3
+zsh: abort (core dumped)  btrace -v store_type_3.bt
+```
+### store not implemented for type 6
+
+Testcase: [store_type_6.bt](./testcases/store_type_6.bt)
+
+```
+store not implemented for type 6
+zsh: abort (core dumped)  btrace -v store_type_6.bt
+```
+
+### 0xdfdfdfdfdfdfdfdf
+
+Doesn't crash 100% of the time, may need a few tries.
+
+Testcase: [run_printmaps.bt](./testcases/resolved/run_printmaps.bt)
+
+```
+debug: parsed probe 'BEGIN'
+debug: eval rule 'BEGIN'
+debug: map=0x0 'map' insert key=0x5fa3e29d4c0 '0' bval=0x5fa3e2a0ac0
+debug: bv=0x5fa3e29d140 var 'map' store (0x5fa3e2ad5e0)
+=> Using p, @map[4F);
+}
+
+END
+{
+        @map[7] = counp8
+debug: eval default 'end' rule
+zsh: segmentation fault (core dumped)  btrace -vv testcases/run_printmaps.bt
+```
+
+```
+[#0] Id 1, stopped 0xc6b1f53f87b in rule_printmaps (), reason: SIGSEGV
+[...]
+gef➤  x $rax
+0xdfdfdfdfdfdfdfdf:     Cannot access memory at address 0xdfdfdfdfdfdfdfdf
+```
+
+Testcase: [run_printmaps2.bt](./testcases/run_printmaps2.bt)
+
+```
+gef➤  bt
+#0  0x000005374ad5adcb in rule_printmaps (r=0x539fc4a3200) at btrace.c:581
+#1  0x000005374ad5a80b in rules_teardown (fd=0xffffffff) at btrace.c:543
+#2  0x000005374ad59bcb in rules_do (fd=0xffffffff) at btrace.c:377
+#3  0x000005374ad59671 in main (argc=0x0, argv=0x7f7ffffbea60) at btrace.c:203
+gef➤  bt full
+#0  0x000005374ad5adcb in rule_printmaps (r=0x539fc4a3200) at btrace.c:581
+        bv = 0xdfdfdfdfdfdfdfdf
+        map = 0x0
+        ba = 0xdfdfdfdfdfdfdfdf
+        bs = 0x539fc4a1200
+```
+
 ## Fixed
 
 ### `assertion "ba->ba_type == B_AT_VAR" failed`
@@ -119,31 +189,6 @@ debug: map=0x0 'map' delete key=0x6c965b38d80 '4'
 zsh: segmentation fault (core dumped)  btrace -vv testcases/map_rb_find.bt
 ```
 
-### 0xdfdfdfdfdfdfdfdf
-
-Testcase: [run_printmaps.bt](./testcases/resolved/run_printmaps.bt)
-
-```
-debug: parsed probe 'BEGIN'
-debug: eval rule 'BEGIN'
-debug: map=0x0 'map' insert key=0x5fa3e29d4c0 '0' bval=0x5fa3e2a0ac0
-debug: bv=0x5fa3e29d140 var 'map' store (0x5fa3e2ad5e0)
-=> Using p, @map[4F);
-}
-
-END
-{
-        @map[7] = counp8
-debug: eval default 'end' rule
-zsh: segmentation fault (core dumped)  btrace -vv testcases/run_printmaps.bt
-```
-
-```
-[#0] Id 1, stopped 0xc6b1f53f87b in rule_printmaps (), reason: SIGSEGV
-[...]
-gef➤  x $rax
-0xdfdfdfdfdfdfdfdf:     Cannot access memory at address 0xdfdfdfdfdfdfdfdf
-```
 
 ### invalid argument type 6
 
