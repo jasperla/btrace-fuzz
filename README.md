@@ -98,7 +98,7 @@ zsh: abort (core dumped)  btrace testcases/index.bt
 
 ### `0x000005c00da07df1 in map_RB_FIND (head=0x0, elm=0x7f7ffffc9c50) at map.c:55`
 
-Testcase: [map_rb_find.bt](./testcases/map_rb_find.bt)
+Testcase: [map_rb_find.bt](./testcases/resolved/map_rb_find.bt)
 
 ```
 debug: parsed probe 'END'
@@ -121,7 +121,7 @@ zsh: segmentation fault (core dumped)  btrace -vv testcases/map_rb_find.bt
 
 ### 0xdfdfdfdfdfdfdfdf
 
-Testcase: [run_printmaps.bt](./testcases/run_printmaps.bt)
+Testcase: [run_printmaps.bt](./testcases/resolved/run_printmaps.bt)
 
 ```
 debug: parsed probe 'BEGIN'
@@ -147,7 +147,7 @@ gef➤  x $rax
 
 ### invalid argument type 6
 
-Testcase: [invalid_arg_6.bt](./testcases/invalid_arg_6.bt)
+Testcase: [invalid_arg_6.bt](./testcases/resolved/invalid_arg_6.bt)
 
 ```
 invalid argument type 6
